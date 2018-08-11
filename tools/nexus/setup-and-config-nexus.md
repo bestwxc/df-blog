@@ -44,11 +44,11 @@
     -Dkaraf.startLocalConsole=false
 ```
 - 进入管理平台，使用默认密码admin/admin123登录，并修改管理用户密码,如图
-        ![](images/nexus-change-password.png)
+        ![](http://www.menghuanhua.com/df-blog/tools/nexus/images/nexus-change-password.png)
 #### 配置Maven私服
 - 打开管理平台，并使用管理用户登录。
 - 进入管理页面，并进入仓库管理，对仓库进行增删。新装的nexus默认仓库如图。
-        ![](images/nexus-maven-config-1.png)
+        ![](http://www.menghuanhua.com/df-blog/tools/nexus/images/nexus-maven-config-1.png)
 - 配置仓库
 一般情况下，maven私服的功能如下：
     + 代理中央仓库，默认的maven-central即中央仓库
@@ -73,11 +73,11 @@
 - 由于oracle仓库采用了认证，在按照上表特性进行配置后，需要进行特殊配置，配置方式如下。
     + 在oracle官网注册账户，注册地址：https://profile.oracle.com/myprofile/account/create-account.jspx
     + 在列表中，点击maven.oracle.com对应行，进入仓库配置。勾选如图的选项，并填入用户名和密码。
-        ![](images/nexus-maven-config-2.png)
+        ![](http://www.menghuanhua.com/df-blog/tools/nexus/images/nexus-maven-config-2.png)
 - 进入df-public，将其余hosted和proxy类型的仓库加入组中，如图：
-        ![](images/nexus-maven-config-3.png)
+        ![](http://www.menghuanhua.com/df-blog/tools/nexus/images/nexus-maven-config-3.png)
 - 配置好的仓库列表如图
-        ![](images/nexus-maven-config-4.png)
+        ![](http://www.menghuanhua.com/df-blog/tools/nexus/images/nexus-maven-config-4.png)
 - 在maven中配置使用nexus私服
     + 在setting.xml中配置
         * 配置将组建发布到仓库使用的用户名，在servers标签下配置，此处使用默认用户名密码举例，server下的id为nexus中配置的仓库名。
@@ -175,10 +175,40 @@
                 </snapshotRepository> 
             </distributionManagement>
         ```
-    + 发布组建
+    + 发布组件
         按照上述配置完成后，使用mvn deploy即可将组件发布到自有私服。
 
+#### 配置npm私服
+- 在nexus中添加npm中央仓库，并创建npm仓库组，按照下表进行配置
 
+    | 仓库名称 | 格式 | 类型 | 发布/快照库 | 是否允许重新发布 | 代理地址 |
+    |:----------:|:-------:|:-----:|:--------:|:-------:|:----------|
+    |npmjs|npm|proxy|-|-|https://registry.npmjs.org/|
+    |df-npm-public|npm|group|-|-|-|
 
-            
+- 配置npm，使用私服地址，配置文件为home目录下的.npmrc文件,如果文件不存在则创建该文件，并添加配置
+    ```
+        registry = http://nexus.menghuanhua.com:8081/repository/df-npm-public/
+    ```
+- 使用npm命令时，使用 -loglevel参数，打印详细的日志信息，如：npm -loglevel info install
 
+#### 配置pip私服
+- 在nexus中添加pip仓库，本例中使用阿里云仓库，如下表：
+
+    | 仓库名称 | 格式 | 类型 | 发布/快照库 | 是否允许重新发布 | 代理地址 |
+    |:----------:|:-------:|:-----:|:--------:|:-------:|:----------|
+    |aliyun-pipy|pipy|proxy|-|-|https://mirrors.aliyun.com/pypi/|
+    |df-pipy-public|pipy|group|-|-|-|
+
+- 使用pip时，使用-i 指定仓库地址，并同时使用--trusted-host参数指定信任主机，如下：
+    ```
+        pip install npmpy -i http://nexus.menghuanhua.com:8081/repository/df-pipy-public/simple --trusted-host nexus.menghuanhua.com
+    ```
+
+- 在配置文件中配置私服地址，配置文件地址~/.pip/pip.conf,如不存在则新增该文件。配置文件内容如下：
+    ```
+        [global]
+        index-url=nexus.menghuanhua.com:8081/repository/df-pipy-public/simple/
+        [install]
+        trusted-host=nexus.menghuanhua.com
+    ```
