@@ -1,6 +1,6 @@
-## nexux安装及配置Maven、pip、npm私服
+## Nexus安装及配置Maven、pip、npm私服
 #### 安装信息
-- 操作系统 RedHat6.x(Centos6.x)
+- 操作系统 Redhat6.x(Centos6.x)
 - nexus-oss版本 nexus-3.13.0-01-unix.tar.gz 
 - JDK版本：JDK8
 - 安装目录 /opt/software/nexus
