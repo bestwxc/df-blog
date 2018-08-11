@@ -9,6 +9,8 @@
 - 组件目录 /opt/software/nexus/sonatype-work
 - 端口：8081（默认）
 - nexus默认管理用户:admin/admin123
+- nexus服务器域名：nexus.menghuanhua.com（配置方式略，用于在配置中表示nexus服务器）
+
 #### 常用操作
 /opt/software/nexus/nexus/bin/nexus {start|stop|run|run-redirect|status|restart|force-reload}
 #### 安装步骤
@@ -76,4 +78,107 @@
         ![](images/nexus-maven-config-3.png)
 - 配置好的仓库列表如图
         ![](images/nexus-maven-config-4.png)
+- 在maven中配置使用nexus私服
+    + 在setting.xml中配置
+        * 配置将组建发布到仓库使用的用户名，在servers标签下配置，此处使用默认用户名密码举例，server下的id为nexus中配置的仓库名。
+        ```
+            <server>
+              <id>df-releases</id>
+              <username>admin</username>
+              <password>admin123</password>
+            </server>
+            <server>
+              <id>df-snapshots</id>
+              <username>admin</username>
+              <password>admin123</password>
+            </server>
+            <server>
+              <id>third-party</id>
+              <username>admin</username>
+              <password>admin123</password>
+            </server>
+        ```
+
+        * 定义私有仓库（可以在pom.xml中配置，但会令pom.xml显得啰嗦，所以优先配置在setting.xml中的profiles中并激活该profile）,完整的profiles和activeProfiles参考如下，根据实际情况替换http://nexus.menghuanhua.com:8081：
+        ```
+            <profiles>
+                <profile>
+                    <id>df-maven</id>
+                    <repositories>
+                        <repository>
+                            <id>df-releases</id>
+                            <name>df-releases</name>
+                            <url>http://nexus.menghuanhua.com:8081/repository/df-releases/</url>
+                            <layout>default</layout>
+                            <snapshots>
+                                <enabled>false</enabled>
+                            </snapshots>
+                            <releases>
+                                <enabled>true</enabled>
+                            </releases>
+                        </repository>
+                        <repository>
+                            <id>df-snapshots</id>
+                            <name>df-snapshots</name>
+                            <url>http://nexus.menghuanhua.com:8081/repository/df-snapshots/</url>
+                            <layout>default</layout>
+                            <snapshots>
+                                <enabled>true</enabled>
+                                <updatePolicy>always</updatePolicy>
+                            </snapshots>
+                            <releases>
+                                <enabled>false</enabled>
+                            </releases>
+                        </repository>
+                        <repository>
+                            <id>third-party</id>
+                            <name>third-party</name>
+                            <url>http://nexus.menghuanhua.com:8081/repository/third-party/</url>
+                            <layout>default</layout>
+                            <snapshots>
+                                <enabled>false</enabled>
+                            </snapshots>
+                            <releases>
+                                <enabled>true</enabled>
+                            </releases>
+                        </repository>
+                    </repositories>
+                </profile>
+            <profiles>
+            <activeProfiles>
+                <activeProfile>df-maven</activeProfile>
+            </activeProfiles>
+        ```
+
+        * 配置镜像，将对所有仓库的访问指向私服的仓库组
+        ```
+            <mirror>
+                <id>df-public</id>
+                <name>df-public</name>
+                <url>http://nexus.menghuanhua:8081/repository/df-public/</url>
+                <mirrorOf>*</mirrorOf>
+            </mirror>
+        ```
+
+    + 在pom.xml中配置发布所使用的发布库及快照库，可以配置在父pom.xml中，继承父pom将继承该配置
+        ```
+            <distributionManagement> 
+                <repository> 
+                    <id>df-releases</id> 
+                    <name>Releases</name> 
+                    <url>http://nexus.menghuanhua:8081/repository/dz-kfb-release</url> 
+                </repository> 
+                <snapshotRepository> 
+                    <id>df-snapshots</id> 
+                    <name>Snapshot</name> 
+                    <url>http://nexus.menghuanhua:8081/repository/dz-kfb-snapshot</url> 
+                </snapshotRepository> 
+            </distributionManagement>
+        ```
+    + 发布组建
+        按照上述配置完成后，使用mvn deploy即可将组件发布到自有私服。
+
+
+
+            
 
