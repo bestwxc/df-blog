@@ -1,5 +1,4 @@
 ## 利用ISO镜像文件搭建本地yum源教程
-## nginx安装教程
 #### 安装信息
 - 操作系统：redhat6.x(centos6.x)
 - 系统镜像包：rhel-server-6.9-x86_64-dvd.iso
