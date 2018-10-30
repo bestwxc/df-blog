@@ -4,6 +4,19 @@
 - ffmpeng版本： ffmpeg
 - 编译参数： --enable-shared --enable-libxavs --enable-libx264 --enable-libx265 --enable-libvpx --enable-libfdk-aac --enable-libcodec2 --enable-libmp3lame --enable-libtwolame --enable-gpl --enable-nonfree --disable-x86asm
 
+## 文件下载
+- [codec2-0.4.1.tar.gz](https://raw.githubusercontent.com/bestwxc/df-blog/master/tools/ffmpeg/setup/codec2-0.4.1.tar.gz)
+- [fdk-aac-0.1.6.tar.gz](https://raw.githubusercontent.com/bestwxc/df-blog/master/tools/ffmpeg/setup/fdk-aac-0.1.6.tar.gz)
+- [ffmpeg-4.0.2.tar.bz2](https://raw.githubusercontent.com/bestwxc/df-blog/master/tools/ffmpeg/setup/ffmpeg-4.0.2.tar.bz2)
+- [lame-3.100.tar.gz](https://raw.githubusercontent.com/bestwxc/df-blog/master/tools/ffmpeg/setup/lame-3.100.tar.gz)
+- [libvpx-1.7.0.zip](https://raw.githubusercontent.com/bestwxc/df-blog/master/tools/ffmpeg/setup/libvpx-1.7.0.zip)
+- [nasm-2.09-1.x86_64.rpm](https://raw.githubusercontent.com/bestwxc/df-blog/master/tools/ffmpeg/setup/nasm-2.09-1.x86_64.rpm)
+- [twolame-0.3.13.tar.gz](https://raw.githubusercontent.com/bestwxc/df-blog/master/tools/ffmpeg/setup/twolame-0.3.13.tar.gz)
+- [x264.zip](https://raw.githubusercontent.com/bestwxc/df-blog/master/tools/ffmpeg/setup/x264.zip)
+- [x265_2.9.tar.gz](https://raw.githubusercontent.com/bestwxc/df-blog/master/tools/ffmpeg/setup/x265_2.9.tar.gz)
+- [xavs-code-r55-trunk.zip](https://raw.githubusercontent.com/bestwxc/df-blog/master/tools/ffmpeg/setup/xavs-code-r55-trunk.zip)
+- [yasm-1.3.0.tar.gz](https://raw.githubusercontent.com/bestwxc/df-blog/master/tools/ffmpeg/setup/yasm-1.3.0.tar.gz)
+
 ## 编译步骤
 ### 安装基础的依赖包（一般情况下可以跳过）
 - yum groupinstall Development tools
